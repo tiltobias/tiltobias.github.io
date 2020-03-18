@@ -1,280 +1,71 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Guestlist</title>
+        <title>Book List</title>
         <meta charset="utf-8">
-        <style>
-            html, body {
-                margin: 0;
-                height: 100%;
-                width: 100%;
-            }
-            #guests {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%,-50%);
-                width: 802px;
-                border: solid black 1px;
-            }
-            #guestForm {
-                font-size: 0;
-                margin: 0;
-            }
-            #guestForm input {
-                font-size: 18px;
-                box-sizing: border-box;
-                border: solid black 1px;
-                padding: 2px;
-            }
-            #guestForm label {
-                display: none;
-            }
-            #btnSend {
-                display: inline-block;
-                width:;
-            }
-            #guestList {
-                border-collapse: collapse;
-                font-size: 0;
-                table-layout: fixed;
-            }
-            #guestList th,
-            #guestList td {
-                border: solid black 1px;
-                box-sizing: border-box;
-                padding: 2px;
-                font-size: 18px;
-            }
-            .name {
-                width: 220px;
-            }
-            .message {
-                width: 500px;
-            }
-            .date {
-                width: 80px;
-                text-align: center;
-            }
-            
-            #commentField {
-                position: relative;
-                width: 500px;
-                height: 90%;
-                transform: translate(-50%,);
-                margin-left: 100px;
-                margin-top: 50px;
-            }
-            .comment {
-                position: relative;
-                /*top: 50%;
-                left: 50%;
-                transform: translate(-50%,-50%);*/
-                /*border: solid black 1px;*/
-                width: 400px;
-                min-height: 100px;
-                height: auto;
-                font-size: 0;
-                font-family: sans-serif;
-                margin: 0;
-                margin-bottom: 20px;
-                /*box-shadow: 0 3px 8px 2px lightgray;*/
-            }
-            .cmntL {
-                position: relative;
-                display: inline-block;
-                width: 60px;
-                min-height: 100px;
-            }
-            .cmntPortrait {
-                position: absolute;
-                border-radius: 100%;
-                width: 56px;
-                height: 56px;
-                top: 2px;
-                left: 2px;
-                background-image: url("picMeercats.jpg");
-                background-size: cover;
-                background-position: center;
-            }
-            .cmntR {
-                position: relative;
-                display: inline-block;
-                width: 335px;
-                min-height: 100px;
-                height: auto;
-                padding-left: 5px;
-            }
-            .cmntHd {
-                position: absolute;
-                height: 30px;
-                width: 100%;
-                padding-top: 5px;
-            }
-            .cmntUsr {
-                position: absolute;
-                display: inline-block;
-                height: 100%;
-                min-width: 200px;
-                max-width: 240px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: clip;
-                font-size: 20px;
-                font-weight: bold;
-            }
-            .cmntDt {
-                position: absolute;
-                right: 0;
-                height: 100%;
-                min-width: 80px;
-                color: gray;
-                font-size: 18px;
-                padding: 0 5px;
-            }
-            .cmntDt::before {
-                content: '';
-                position: absolute;
-                display: inline-block;
-                width: 80px;
-                height: 100%;
-                left: -80px;
-                background-image: linear-gradient(to right, transparent, white);
-                z-index: 2;
-            }
-            .cmntMsg {
-                font-size: 20px;
-                position: absolute;
-                min-height: 70px;
-                height: auto;
-                margin-top: 35px;
-            }
-        </style>
     </head>
     <body>
-        <!-- The core Firebase JS SDK is always required and must be listed first -->
-        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-database.js"></script>
-        <script>
-            // Your web app's Firebase configuration
-            var firebaseConfig = {
-                apiKey: "AIzaSyAStmr7q3DzwJqux8S040pb7wI7RqPV60E",
-                authDomain: "tobias-60ca4.firebaseapp.com",
-                databaseURL: "https://tobias-60ca4.firebaseio.com",
-                projectId: "tobias-60ca4",
-                storageBucket: "tobias-60ca4.appspot.com",
-                messagingSenderId: "337589636106",
-                appId: "1:337589636106:web:8e8cbedc5320988e2a23f3"
-            };
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            let db = firebase.database();
-            let dbGuestList = db.ref("guestList");
-        </script>
         
-        
-        <!--
-        <div id="guests">
-            <form id="guestForm">
-                <input id="inpName" class="name" type="text" placeholder="name"><label for="inpName">Navn</label>
-                <input id="inpMessage" class="message" type="text" placeholder="message"><label for="inpMessage">Melding</label>
-                <input id="btnSend" type="button" value="Send">
-            </form>
-            <table id="guestList">
-                <tr>
-                    <th class="name">Navn</th>
-                    <th class="message">Melding</th>
-                    <th class="date">Dato</th>
-                </tr>
-            </table>
-        </div>-->
-        <form id="guestForm">
-            <input id="inpName" class="name" type="text" placeholder="name"><label for="inpName">Navn</label>
-            <input id="inpMessage" class="message" type="text" placeholder="message"><label for="inpMessage">Melding</label>
-            <input id="inpPicture" class="pictureSelect" type="number" placeholder="#picture">
-            <input id="btnSend" type="button" value="Send">
-        </form>
-        <div id="commentField"> 
-            <div class="comment">
-                <div class="cmntL">
-                    <div class="cmntPortrait"></div>
-                    <div></div>
-                </div>
-                <div class="cmntR">
-                    <div class="cmntHd">
-                        <div class="cmntUsr">Tobias Andresen Slettahjell</div>
-                        <div class="cmntDt">03.03.2020</div>
-                    </div>
-                    <div class="cmntMsg">Jeg heter Tobias og jeg syns at politikk er dumt.</div>
-                </div>
-            </div>
+        <div id="bookForm">
+            <input id="inpBookTitle" type="text" placeholder="book title">
+            <input id="inpBookAuthor" type="text" placeholder="author">
+            <input id="inpBookReleaseYear" type="text" placeholder="release year">
+            <input id="inpBookPublisher" type="text" placeholder="publishers">
+            <label for="slectBookRating">Rating:</label>
+            <select id="slctBookRating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value0"4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <input id="btnBookSubmit" type="button" value="Submit Book">
         </div>
+        
+        
+        <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-database.js"></script>
         <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyDYazCzCp3jYJpDJXxZf2GrZOfEhIcb91c",
+                authDomain: "booklist-87ee7.firebaseapp.com",
+                databaseURL: "https://booklist-87ee7.firebaseio.com",
+                projectId: "booklist-87ee7",
+                storageBucket: "booklist-87ee7.appspot.com",
+                messagingSenderId: "119340597201",
+                appId: "1:119340597201:web:96f66c0e807390987baaf0"
+            };
+            firebase.initializeApp(firebaseConfig);
+            let dbBookList = firebase.database().ref("SubmittedBooks");
             
-            const inpName = document.getElementById("inpName");
-            const inpMessage = document.getElementById("inpMessage");
-            const inpPicture = document.getElementById("inpPicture");
-            const commentField = document.getElementById("commentField");
-            const btnSend = document.getElementById("btnSend");
+            const inpBTitle = document.getElementById("inpBookTitle");
+            const inpBAuthor = document.getElementById("inpBookAuthor");
+            const inpBReleaseYear = document.getElementById("inpBookReleaseYear");
+            const inpBPublisher = document.getElementById("inpBookPublisher");
+            const btnBSubmit = document.getElementById("btnBookSubmit");
+            let inpBRating;
             
-            function checkMsg() {
-                if(inpName.value){
-                    sendMsg();
-                };
+            
+            
+            
+            function submitBook() {     
+                inpBRating = document.querySelector("#slctBookRating option:checked").value;
+                
+                let newObject = dbBookList.child(inpBReleaseYear.value + inpBAuthor.value + inpBTitle.value);
+                newObject.set({
+                    title : inpBTitle.value , 
+                    author : inpBAuthor.value , 
+                    releaseYear : inpBReleaseYear.value , 
+                    publisher : inpBPublisher.value , 
+                    rating : inpBRating
+                });
+                
+                window.alert("Book submitted.");
             };
             
-            function sendMsg() {
-                let newObject = dbGuestList.child(calculateTime(0) + inpName.value);
-                newObject.set({ name: inpName.value , message : inpMessage.value , time : calculateTime(1) , picture : inpPicture.value});
-                
-                window.alert("Message submitted.");
-            };
-            
-            function showDatabase() {
-                function showDatabaseHelper(snapshot){
-                    let timestamp = snapshot.key;
-                    let content = snapshot.val();
-                    commentField.innerHTML += `
-            <div class="comment">
-                <div class="cmntL">
-                    <div class="cmntPortrait"></div>
-                    <div></div>
-                </div>
-                <div class="cmntR">
-                    <div class="cmntHd">
-                        <div class="cmntUsr">${content.name}</div>
-                        <div class="cmntDt">${content.time}</div>
-                    </div>
-                    <div class="cmntMsg">${content.message}</div>
-                </div>
-            </div>`;
-                };
-                dbGuestList.on("child_added", showDatabaseHelper);
-            };
-                
-            const calculateTime = function(format) {
-                let dateObj = new Date();
-                
-                let currentDay = dateObj.getDate();
-                if (currentDay < 10) {currentDay = "0" + currentDay};
-                let currentMonth = dateObj.getMonth() + 1;
-                if (currentMonth < 10) {currentMonth = "0" + currentMonth};
-                let currentYear = dateObj.getFullYear();
-                let currentHour = dateObj.getHours();
-                let currentMinute = dateObj.getMinutes();
-                let currentSecond = dateObj.getSeconds();
-                
-                if (format === 0) {
-                    return currentYear + currentMonth + currentDay + currentHour + currentMinute + currentSecond;
-                } else if (format === 1) {
-                    return currentDay + "." + currentMonth + "." + currentYear;
-                };   
-            }
-            
-            btnSend.addEventListener("click", checkMsg);
-            btnSend.addEventListener("click", showDatabase);
-            
+            btnBSubmit.addEventListener("click", submitBook);
         </script>
     </body>
 </html>
