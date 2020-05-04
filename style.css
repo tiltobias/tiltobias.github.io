@@ -1,0 +1,115 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    font-family: sans-serif;
+    background-color: bisque;
+    
+}
+body {overflow-y: scroll;}
+
+header, nav, main, footer { position: relative; }
+
+header, nav { background-color: beige; }
+
+.currentSite { background-color: bisque; }
+
+h1 {
+    margin: 0;
+    padding: 30px 50px;
+    font-size: 70px;
+    text-align: center;
+}
+h1 a {
+    text-decoration: inherit;
+    color: inherit;
+}
+
+#navList {
+    display: inline-block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 0;
+}
+.navItem {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+.navItem a {
+    width: 300px;
+    text-align: center;
+    padding: 20px 30px;
+    transition: background-color .3s, color .3s;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+    font-size: 30px;
+}
+.navItem:not(.currentSite) a:hover { background-color: burlywood; }
+
+#listContainer {
+    margin: 0 200px;
+    position: relative;
+    display: block;
+}
+
+article,
+#sources {
+    margin: 0;
+    padding: 0 50px;
+    max-width: 800px;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#Pros,
+#Cons {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+}
+#Pros {
+    left: 0;
+    background-color: aqua;
+}
+#Cons {
+    right: 0;
+    background-color: aquamarine;
+}
+
+h3 {
+    margin: 0;
+    padding: 20px 40px;
+    font-size: 40px;
+    text-decoration: underline;
+}
+
+article h3,
+#sources h3 { text-align: center; }
+
+ul {
+    margin: 0;
+    font-size: 22px;
+    list-style-type: circle;
+}
+
+#listContainer li { margin: 30px 0; }
+
+article p {
+    font-size: 20px;
+    margin: 20px 0 30px 0;
+    line-height: 1.2em;
+}
+article p:last-child {
+    margin-bottom: 100px;
+}
+
+

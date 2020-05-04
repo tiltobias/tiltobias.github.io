@@ -1,71 +1,42 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Book List</title>
+        <title>Smittesporing | For/Imot</title>
         <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="style.css">
     </head>
     <body>
-        
-        <div id="bookForm">
-            <input id="inpBookTitle" type="text" placeholder="book title">
-            <input id="inpBookAuthor" type="text" placeholder="author">
-            <input id="inpBookReleaseYear" type="text" placeholder="release year">
-            <input id="inpBookPublisher" type="text" placeholder="publishers">
-            <label for="slectBookRating">Rating:</label>
-            <select id="slctBookRating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value0"4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-            </select>
-            <input id="btnBookSubmit" type="button" value="Submit Book">
-        </div>
-        
-        
-        <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-auth.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.11.0/firebase-database.js"></script>
-        <script>
-            var firebaseConfig = {
-                apiKey: "AIzaSyDYazCzCp3jYJpDJXxZf2GrZOfEhIcb91c",
-                authDomain: "booklist-87ee7.firebaseapp.com",
-                databaseURL: "https://booklist-87ee7.firebaseio.com",
-                projectId: "booklist-87ee7",
-                storageBucket: "booklist-87ee7.appspot.com",
-                messagingSenderId: "119340597201",
-                appId: "1:119340597201:web:96f66c0e807390987baaf0"
-            };
-            firebase.initializeApp(firebaseConfig);
-            let dbBookList = firebase.database().ref("SubmittedBooks");
-            
-            const inpBTitle = document.getElementById("inpBookTitle");
-            const inpBAuthor = document.getElementById("inpBookAuthor");
-            const inpBReleaseYear = document.getElementById("inpBookReleaseYear");
-            const inpBPublisher = document.getElementById("inpBookPublisher");
-            const btnBSubmit = document.getElementById("btnBookSubmit");
-            let inpBRating;
-            
-            
-            
-            
-            function submitBook() {     
-                inpBRating = document.querySelector("#slctBookRating option:checked").value;
-                
-                let newObject = dbBookList.child(inpBReleaseYear.value + inpBAuthor.value + inpBTitle.value);
-                newObject.set({
-                    title : inpBTitle.value , 
-                    author : inpBAuthor.value , 
-                    releaseYear : inpBReleaseYear.value , 
-                    publisher : inpBPublisher.value , 
-                    rating : inpBRating
-                });
-                
-                window.alert("Book submitted.");
-            };
-            
-            btnBSubmit.addEventListener("click", submitBook);
-        </script>
+        <header>
+            <h1><a target="_blank" href="https://github.com/fagstoff/IT1/blob/master/Oppgaver/Diverse/Smittesporing.md?fbclid=IwAR2LW7W2nki2ba7UcpwhsNM_FyJTvlOmdq0NGCsDbRWpKTXtGzdycUTxxCc">Smittesporing</a></h1>
+        </header>
+        <nav>
+            <ul id="navList">
+                <li class="navItem currentSite"><a href="index.html">For / Imot</a></li>
+                <li class="navItem"><a href="article.html">Drøfting</a></li>
+                <li class="navItem"><a href="sources.html">Kilder</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div id="listContainer">
+                <div id="Pros" dir="rtl">
+                    <h3>For</h3>
+                    <ul>
+                        <li>Hjelper å samle informasjon om bevegelsesmønstre i befolkningen, som kan brukes av myndighetene til nye mer effektive tiltak </li>
+                        <li>Varsling om nærkontakt med smitte. Kan hjelpe med å være ekstra forsiktig / Holde seg hjemme</li>
+                        <li>Anonym informasjon</li>
+                        <li>Personlig data lagres bare i 30 dager</li>
+                    </ul>
+                </div>
+                <div id="Cons">
+                    <h3>Imot</h3>
+                    <ul>
+                        <li>Sporing av befolkningen - Overvåkning - Personvern</li>
+                        <li>Upraktisk (Batterilevetid, etc.)</li>
+                        <li>Passiv - Sein tilbakemelding</li>
+                        <li>Lite effektiv med få brukere. Mange må bruke appen for å få nytte</li>
+                    </ul>
+                </div> 
+            </div>
+        </main>
     </body>
 </html>
