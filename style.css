@@ -489,7 +489,7 @@ div#hamburger.menuOpen nav a {
   max-height: 1240px;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
 }
 
 .parallaxCover {
