@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Tobias | Home</title>
+        <title>Tobias | Messages</title>
         <meta charset="utf-8">
         <link type="text/css" rel="stylesheet" href="style.css">
     </head>
@@ -57,56 +57,56 @@
                     </div>
                 </div>
             </header>
-            <div id="parallax" class="parallax parallaxHome">
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxCover"></div>
-                <div class="parallaxSpacer"></div>
-                <main id="homeMain">
-                    <section class="section">
-                        <div>
-                            <div>
-                                <h2>What to do?</h2>
-                                <div id="choiceBox">
-                                    <div class="choice">
-                                        <a href="createAccount.html">Create an Account</a>
-                                        <a href="messages.html">Send some Messages</a>
+            <div id="parallax" class="parallax">
+                <div id="msgContainer">
+                    <main id="messagesMain">
+                        <div id="msgField">
+                            
+                        <!--<div class="msg">
+                                <div class="msgHd">
+                                    <div class="msgPic"><div style="background-image: url()"></div></div>
+                                    <div class="msgTitle">
+                                        <div class="msgName">Tobias Andresen ajwndiauaasdasded</div>
+                                        <div class="msgDate">01.01.2020</div>
+                                        <div class="msgUser">tiltobias</div>
+                                        <div class="msgTime">19:23</div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="msgTxt">Hei, dette er bare litt tekst.</div>
+                            </div>-->
+                            
                         </div>
-                    </section>
-                </main>
+                    </main>
+                </div>
             </div>
-                
-                <!--<div class="box box1"></div>
-                <div class="box box2"></div>
-                <div class="box box3"></div>-->
-            
+            <div id="senderContainer">
+                <form id="msgSender">
+                    <textarea id="inpMsg" placeholder="Write a message!"></textarea>
+                    <input id="inpSend" type="button" value="Send">
+                </form>
+            </div>
         </div>
         <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-auth.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-database.js"></script>
         <script>
-          var firebaseConfig = {
-            apiKey: "AIzaSyAStmr7q3DzwJqux8S040pb7wI7RqPV60E",
-            authDomain: "tobias-60ca4.firebaseapp.com",
-            databaseURL: "https://tobias-60ca4.firebaseio.com",
-            projectId: "tobias-60ca4",
-            storageBucket: "tobias-60ca4.appspot.com",
-            messagingSenderId: "337589636106",
-            appId: "1:337589636106:web:8e8cbedc5320988e2a23f3"
-          };
-          firebase.initializeApp(firebaseConfig);
+            var firebaseConfig = {
+                apiKey: "AIzaSyAStmr7q3DzwJqux8S040pb7wI7RqPV60E",
+                authDomain: "tobias-60ca4.firebaseapp.com",
+                databaseURL: "https://tobias-60ca4.firebaseio.com",
+                projectId: "tobias-60ca4",
+                storageBucket: "tobias-60ca4.appspot.com",
+                messagingSenderId: "337589636106",
+                appId: "1:337589636106:web:8e8cbedc5320988e2a23f3"
+            };
+            firebase.initializeApp(firebaseConfig);
         </script>
         <script>
             window.setTimeout(() => window.scrollTo(0,0), 30);
             
             const db = firebase.database();
             const dbUserAccounts = firebase.database().ref("userAccounts");
+            const dbUserMessages = firebase.database().ref("userMessages");
             
             const header = document.getElementById("header");
             const parallax = document.getElementById("parallax");
@@ -121,8 +121,6 @@
             const txtSignIn = document.getElementById("txtSignIn");
             
             //-----------------BASIC FUNCTIONS------------------------------
-            
-            
             
             function hdScrolled() {
                 if (parallax.scrollTop === 0) {
@@ -174,6 +172,90 @@
                     inpLogin.disabled = true;
                 };
             };
+            
+            //--------------MESSAGE FUNCTIONS------------------------------
+            
+            const msgSender = document.getElementById("msgSender");
+            const inpMsg = document.getElementById("inpMsg");
+            const inpSend = document.getElementById("inpSend");
+            const msgField = document.getElementById("msgField");
+            
+            function checkMsg() {
+                if (inpMsg.value && JSON.parse(sessionStorage.getItem("userInfo"))) {
+                    msgSender.classList.add("inpFilled");
+                    inpSend.disabled = false;
+                } else {
+                    msgSender.classList.remove("inpFilled");
+                    inpSend.disabled = true;
+                };
+            };
+            
+            function sendMsg() {
+                let newObject = dbUserMessages.child(currentTime(0) + userInfo.username);
+                newObject.set({
+                    username : userInfo.username ,
+                    fname : userInfo.fname , 
+                    lname : userInfo.lname , 
+                    picture : userInfo.picture , 
+                    date : currentTime(1) , 
+                    time : currentTime(2) ,
+                    message : inpMsg.value 
+                });
+                scrollToMessage();
+                msgSender.reset();
+            };
+            
+            function showMessages(snapshot) {
+                let msgKey = snapshot.key;
+                let msgContent = snapshot.val();
+                msgField.innerHTML += `
+                    <div class="msg">
+                        <div class="msgHd">
+                            <div class="msgPic"><div style="background-image: url(${msgContent.picture})"></div></div>
+                            <div class="msgTitle">
+                                <div class="msgName">${msgContent.fname + " " + msgContent.lname}</div>
+                                <div class="msgDate">${msgContent.date}</div>
+                                <div class="msgUser">${msgContent.username}</div>
+                                <div class="msgTime">${msgContent.time}</div>
+                            </div>
+                        </div>
+                        <div class="msgTxt">${msgContent.message}</div>
+                    </div>`;
+            };
+            dbUserMessages.on("child_added", showMessages);
+            
+            
+            function currentTime(format) {
+                let dateObj = new Date();
+                
+                let crntDay = dateObj.getDate();
+                if (crntDay < 10) {crntDay = "0" + crntDay};
+                let crntMonth = dateObj.getMonth() + 1;
+                if (crntMonth < 10) {crntMonth = "0" + crntMonth};
+                let crntYear = dateObj.getFullYear();
+                let crntHour = dateObj.getHours();
+                if (crntHour < 10) {crntHour = "0" + crntHour};
+                let crntMinute = dateObj.getMinutes();
+                if (crntMinute < 10) {crntMinute = "0" + crntMinute};
+                let crntSecond = dateObj.getSeconds();
+                if (crntSecond < 10) {crntSecond = "0" + crntSecond};
+                
+                if (format === 0) {
+                    return crntYear + crntMonth + crntDay + crntHour + crntMinute + crntSecond;
+                } else if (format === 1) {
+                    return crntDay + "." + crntMonth + "." + crntYear;
+                } else if (format === 2) {
+                    return crntHour + ":" + crntMinute;
+                };
+            };
+            
+            function scrollToMessage() {
+                let lastMsg = document.querySelector("#msgField .msg:last-of-type");
+                lastMsg.scrollIntoView();
+            };
+            
+            
+            
             
             //---------------FIREBASE FUNCTIONS-----------------------------
             
@@ -227,6 +309,8 @@
             inpPassword.addEventListener("input", checkLogin);
             checkUsername();
             inpLogin.addEventListener("click", signIn);
+            inpMsg.addEventListener("input", checkMsg);
+            inpSend.addEventListener("click", sendMsg);
         </script>
     </body>
 </html>

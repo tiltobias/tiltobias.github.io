@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Tobias | Home</title>
+        <title>Tobias | Create Account</title>
         <meta charset="utf-8">
         <link type="text/css" rel="stylesheet" href="style.css">
     </head>
@@ -57,35 +57,51 @@
                     </div>
                 </div>
             </header>
-            <div id="parallax" class="parallax parallaxHome">
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxLayer"></div>
-                <div class="parallaxCover"></div>
-                <div class="parallaxSpacer"></div>
-                <main id="homeMain">
-                    <section class="section">
-                        <div>
+            <div id="createContainer">
+                <main id="createMain">
+                    <h2>Create Account</h2>
+                    <form id="createForm">
+                        <div class="inpContainer">
                             <div>
-                                <h2>What to do?</h2>
-                                <div id="choiceBox">
-                                    <div class="choice">
-                                        <a href="createAccount.html">Create an Account</a>
-                                        <a href="messages.html">Send some Messages</a>
-                                    </div>
-                                </div>
+                                <input id="crtFName" type="text">
+                                <span data-placeholder="First Name"></span>
+                            </div>
+                            <div>
+                                <input id="crtLName" type="text">
+                                <span data-placeholder="Last Name"></span>
                             </div>
                         </div>
-                    </section>
+                        <div class="inpContainer">
+                            <div class="createUsername">
+                                <input id="crtUName" type="text">
+                                <span data-placeholder="Username"></span>
+                            </div>
+                        </div>
+                        <p id="usernameFeedback"></p>
+                        <div class="inpContainer">
+                            <div>
+                                <input id="crtUrl" type="url">
+                                <span data-placeholder="Picture URL (optional)"></span>
+                            </div>
+                            <div id="picTestBox"></div>
+                        </div>
+                        <div class="inpContainer">
+                            <div>
+                                <input id="crtPw1" type="password">
+                                <span data-placeholder="Password"></span>
+                            </div>
+                            <div>
+                                <input id="crtPw2" type="password">
+                                <span data-placeholder="Password"></span>
+                            </div>
+                        </div>
+                        <p id="passwordFeedback"></p>
+                        <div class="inpContainer">
+                            <input id="crtCreate" type="button" value="Create Account" disabled>
+                        </div>
+                    </form>
                 </main>
             </div>
-                
-                <!--<div class="box box1"></div>
-                <div class="box box2"></div>
-                <div class="box box3"></div>-->
-            
         </div>
         <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/7.14.3/firebase-auth.js"></script>
@@ -120,17 +136,8 @@
             const loginFeedback = document.getElementById("loginFeedback");
             const txtSignIn = document.getElementById("txtSignIn");
             
+            
             //-----------------BASIC FUNCTIONS------------------------------
-            
-            
-            
-            function hdScrolled() {
-                if (parallax.scrollTop === 0) {
-                    header.classList.remove("hdScrolled");
-                } else {
-                    header.classList.add("hdScrolled");
-                };
-            };
             
             let menuOpen = false;
             function openMenu() {
@@ -175,6 +182,56 @@
                 };
             };
             
+            
+            //---------------CREATE FUNCTIONS & VARIABLES-------------------
+            
+            const allCreateInputs = document.querySelectorAll(".inpContainer>div input");
+            
+            const createForm = document.getElementById("createForm");
+            const crtFName = document.getElementById("crtFName");
+            const crtLName = document.getElementById("crtLName");
+            const crtUName = document.getElementById("crtUName");
+            const crtUrl = document.getElementById("crtUrl");
+            const picTestBox = document.getElementById("picTestBox");
+            const crtPw1 = document.getElementById("crtPw1");
+            const crtPw2 = document.getElementById("crtPw2");
+            const usernameFeedback = document.getElementById("usernameFeedback");
+            const passwordFeedback = document.getElementById("passwordFeedback");
+            const crtCreate = document.getElementById("crtCreate");
+            
+            
+            
+            function picTest() {
+                picTestBox.style.backgroundImage = "url(" + crtUrl.value + ")";
+            };
+            
+            function checkCreate() {
+                if (crtFName.value !== "" && crtLName.value !== "" && crtUName.value !== "" && crtPw1.value !== "" && crtPw1.value === crtPw2.value && checkUsernameAvailable()) {
+                    crtCreate.classList.add("inpFilled");
+                    crtCreate.disabled = false;
+                } else {
+                    crtCreate.classList.remove("inpFilled");
+                    crtCreate.disabled = true;
+                };
+            };
+            
+            function checkUsernameFeedback() {
+                if (checkUsernameAvailable()) {
+                    usernameFeedback.innerHTML = "";
+                } else {
+                    usernameFeedback.innerHTML = "Username taken.";
+                };
+            };
+            
+            function checkPasswordFeedback() {
+                if (crtPw1.value !== crtPw2.value) {
+                    passwordFeedback.innerHTML = "Passwords don't match.";
+                } else {
+                    passwordFeedback.innerHTML = "";
+                };
+            };
+            
+            
             //---------------FIREBASE FUNCTIONS-----------------------------
             
             let userInfo;
@@ -215,8 +272,38 @@
             };
             checkSignIn();
             
+            function checkUsernameAvailable() {
+                let usernameAvailable = true;
+                function checkUsernameAHelper(snapshot) {
+                    let userKey = snapshot.key;
+                    if (userKey === crtUName.value) {
+                        usernameAvailable = false;
+                    };
+                };
+                dbUserAccounts.on("child_added", checkUsernameAHelper);
+                return usernameAvailable;
+            };
             
-            parallax.addEventListener("scroll", hdScrolled);
+            function createAccount() {
+                if (crtFName.value !== "" && crtLName.value !== "" && crtUName.value !== "" && crtPw1.value !== "" && crtPw1.value === crtPw2.value && checkUsernameAvailable()) {
+                    let newObject = dbUserAccounts.child(crtUName.value);
+                    newObject.set({
+                        username : crtUName.value , 
+                        password : crtPw1.value , 
+                        fname : crtFName.value ,
+                        lname : crtLName.value ,
+                        picture : crtUrl.value 
+                    });
+                    window.alert("New Account Created!");
+                    createForm.reset();
+                } else {
+                    window.alert("Could not create account.");
+                };
+            };
+            
+            
+            //----------EVENT LISTENERS-------------------------------------
+            
             menuBtn.addEventListener("click", openMenu);
             loginBtn.addEventListener("click", openLogin);
             inpUsername.addEventListener("focus", inpFocus);
@@ -227,6 +314,14 @@
             inpPassword.addEventListener("input", checkLogin);
             checkUsername();
             inpLogin.addEventListener("click", signIn);
+            allCreateInputs.forEach(function(e){e.addEventListener("focus", inpFocus)});
+            allCreateInputs.forEach(function(e){e.addEventListener("blur", inpBlur)});
+            crtUrl.addEventListener("input", picTest);
+            crtUName.addEventListener("input", checkUsernameFeedback);
+            crtPw1.addEventListener("input", checkPasswordFeedback);
+            crtPw2.addEventListener("input", checkPasswordFeedback);
+            allCreateInputs.forEach(function(e){e.addEventListener("input", checkCreate)});
+            crtCreate.addEventListener("click", createAccount);
         </script>
     </body>
 </html>

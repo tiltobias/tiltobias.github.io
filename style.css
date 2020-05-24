@@ -1,115 +1,893 @@
-html, body {
-    margin: 0;
-    height: 100%;
-    font-family: sans-serif;
-    background-color: bisque;
-    
-}
-body {overflow-y: scroll;}
-
-header, nav, main, footer { position: relative; }
-
-header, nav { background-color: beige; }
-
-.currentSite { background-color: bisque; }
-
-h1 {
-    margin: 0;
-    padding: 30px 50px;
-    font-size: 70px;
-    text-align: center;
-}
-h1 a {
-    text-decoration: inherit;
-    color: inherit;
+body {
+  margin: 0;
+  font-family: sans-serif;
+  overflow: hidden;
+  max-height: 100vh;
 }
 
-#navList {
-    display: inline-block;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%);
-    font-size: 0;
-}
-.navItem {
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-}
-.navItem a {
-    width: 300px;
-    text-align: center;
-    padding: 20px 30px;
-    transition: background-color .3s, color .3s;
-    display: block;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
-    font-size: 30px;
-}
-.navItem:not(.currentSite) a:hover { background-color: burlywood; }
-
-#listContainer {
-    margin: 0 200px;
-    position: relative;
-    display: block;
+#pageContainer {
+  position: relative;
+  background-image: url(orange%20mountains/wallpaper%20orange%20mountains.jpg);
+  background-position: center;
+  height: 100vh;
 }
 
-article,
-#sources {
-    margin: 0;
-    padding: 0 50px;
-    max-width: 800px;
-    position: relative;
-    left: 50%;
-    transform: translate(-50%);
+/*------------------------------------------------------------------------------------*/
+/*-------------------------HEADER-----------------------------------------------------*/
+/*------------------------------------------------------------------------------------*/
+header {
+  width: 100%;
+  height: 80px;
+  display: block;
+  position: fixed;
+  z-index: 1;
+  margin-left: -15px;
+  transition: background-color .3s, text-shadow .3s, padding .3s;
+  padding: 20px 0;
 }
 
-#Pros,
-#Cons {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    width: 50%;
-}
-#Pros {
-    left: 0;
-    background-color: aqua;
-}
-#Cons {
-    right: 0;
-    background-color: aquamarine;
+.hdScrolled {
+  /*background-image: linear-gradient(to right, rgba( 0, 0, 0, 0.2), rgba( 0, 0, 0, 0), rgba( 0, 0, 0, 0), rgba( 0, 0, 0, 0.2));*/
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: 2s;
+  padding: 0;
 }
 
-h3 {
-    margin: 0;
-    padding: 20px 40px;
-    font-size: 40px;
-    text-decoration: underline;
+header > div {
+  position: relative;
+  left: 15px;
+  height: 100%;
+  margin: 0 100px;
+  transition: margin .3s;
 }
 
-article h3,
-#sources h3 { text-align: center; }
-
-ul {
-    margin: 0;
-    font-size: 22px;
-    list-style-type: circle;
+/*.hdScrolled>div {
+    margin: 0 50px;
+    transition: 2s;
+}*/
+/*---------------------------TITLE-------------------------------------------------------*/
+#heading {
+  position: absolute;
+  left: 80px;
+  top: 0;
+  line-height: 80px;
+  font-size: 50px;
+  margin: 0;
+  padding: 0 20px;
+  color: #fff;
+  text-shadow: 0 0 1px black;
+}
+#heading a {
+  text-decoration: inherit;
+  color: inherit;
+}
+#heading a:hover {
+  text-shadow: 0 0 1px black, 0 0 3px rgba(0, 0, 0, 0.5);
 }
 
-#listContainer li { margin: 30px 0; }
-
-article p {
-    font-size: 20px;
-    margin: 20px 0 30px 0;
-    line-height: 1.2em;
+/*---------------------------HAMBURGER MENU----------------------------------------------------*/
+#hamburger {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0;
+  height: 80px;
+  width: 80px;
 }
-article p:last-child {
-    margin-bottom: 100px;
+#hamburger button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  height: 40px;
+  outline: none;
+}
+#hamburger button svg {
+  fill: #fff;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.4));
+}
+#hamburger button svg rect {
+  position: relative;
+  transition: .4s;
+  transform-origin: center;
+}
+#hamburger button:hover svg {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+#hamburger nav {
+  background-color: #eee;
+  font-size: 20px;
+  padding: 20px;
+  position: absolute;
+  top: 80%;
+  left: 0;
+  opacity: 0;
+  transition: opacity .3s, top .3s ease-out, right .3s ease-out, transform .3s ease-out;
+  border-radius: 10px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  width: 200px;
+  height: 189px;
+}
+#hamburger nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#hamburger nav ul li a {
+  display: none;
+  padding: 20px 25px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s, background-position .6s, box-shadow .5s;
+  border-radius: 10px;
+  background-image: linear-gradient(to left, #eee, #eee, #092443, #112234);
+  background-size: 300%;
+  background-position: right;
+}
+#hamburger nav ul li a:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5);
+  background-position: left;
+  color: white;
 }
 
+div#hamburger.menuOpen button svg {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+div#hamburger.menuOpen nav {
+  opacity: 1;
+  top: 100%;
+  left: 0;
+}
+div#hamburger.menuOpen nav a {
+  display: block;
+}
 
+/*---------------------------HAMBURGER ANIMATIONS-----------------------------------------------------*/
+.menuOpen rect:nth-of-type(1) {
+  transform: rotate(45deg) translate(0px, 15px);
+}
+.menuOpen rect:nth-of-type(3) {
+  transform: rotate(45deg) translate(0px, -15px);
+}
+.menuOpen rect:nth-of-type(2) {
+  transform: rotate(-45deg);
+}
+.menuOpen rect:nth-of-type(4) {
+  transform: rotate(-45deg);
+}
+
+.menuOpen1 rect:nth-of-type(1) {
+  opacity: 0;
+}
+.menuOpen1 rect:nth-of-type(3) {
+  opacity: 0;
+}
+.menuOpen1 rect:nth-of-type(2) {
+  transform: rotate(45deg);
+}
+.menuOpen1 rect:nth-of-type(4) {
+  transform: rotate(-45deg);
+}
+
+.menuOpen2 rect:nth-of-type(1) {
+  transform: rotate(45deg) translate(0px, 15px);
+}
+.menuOpen2 rect:nth-of-type(3) {
+  transform: rotate(-45deg) translate(0px, -15px);
+}
+.menuOpen2 rect:nth-of-type(2) {
+  opacity: 0;
+}
+.menuOpen2 rect:nth-of-type(4) {
+  opacity: 0;
+}
+
+/*---------------------------LOGIN-------------------------------------------------------*/
+#loginContainer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 80px;
+  display: table;
+}
+#loginContainer #login {
+  vertical-align: middle;
+  display: table-cell;
+  font-size: 0;
+  padding-right: 30px;
+}
+#loginContainer #login #loginBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+  color: white;
+  text-shadow: 0 0 1px black;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 25px;
+  display: inline-flex;
+  align-items: center;
+}
+#loginContainer #login #loginBtn svg {
+  display: inline-block;
+  fill: white;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.4));
+}
+#loginContainer #login #loginBtn svg rect {
+  transform-origin: center;
+  transition: .5s;
+}
+#loginContainer #login #loginBtn svg rect:nth-of-type(1) {
+  transform: translate(-5px, 0px) rotate(55deg);
+}
+#loginContainer #login #loginBtn svg rect:nth-of-type(2) {
+  transform: translate(5px, 0px) rotate(-55deg);
+}
+#loginContainer #login #loginBtn span {
+  font-size: inherit;
+  display: inline-block;
+  padding: 0 5px;
+}
+#loginContainer #login #loginBtn:hover span {
+  text-shadow: 0 0 1px black, 0 0 3px rgba(0, 0, 0, 0.5);
+}
+#loginContainer #login #loginBtn:hover svg {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+#loginContainer #login #loginDrop {
+  background-color: #eee;
+  font-size: 20px;
+  padding: 60px 40px;
+  position: absolute;
+  top: 80%;
+  right: 50%;
+  transform: translate(50%);
+  opacity: 0;
+  transition: opacity .3s, top .3s ease-out, right .3s ease-out, transform .3s ease-out;
+  border-radius: 10px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  width: 240px;
+  height: 314px;
+}
+#loginContainer #login #loginDrop > * {
+  display: none;
+}
+#loginContainer #login #loginDrop form {
+  padding: 0;
+}
+#loginContainer #login #loginDrop form .inpBox {
+  margin: 0;
+  border-bottom: 2px solid #bbb;
+  position: relative;
+}
+#loginContainer #login #loginDrop form .inpBox:first-of-type {
+  margin: 0 0 50px 0;
+}
+#loginContainer #login #loginDrop form input {
+  background: none;
+  border: none;
+  display: block;
+  padding: 10px;
+  outline: none;
+  font-size: 18px;
+  position: relative;
+  z-index: 1;
+}
+#loginContainer #login #loginDrop form input[type="submit"], #loginContainer #login #loginDrop form input[type="button"] {
+  width: 100%;
+  margin: 0;
+  background-image: linear-gradient(120deg, #bbb, #ddd, #bbb);
+  background-size: 200%;
+  background-position: left;
+  transition: .5s;
+  padding: 15px;
+  border-radius: 10px;
+  color: #999;
+}
+#loginContainer #login #loginDrop form input[type="submit"].inpFilled, #loginContainer #login #loginDrop form input[type="button"].inpFilled {
+  background-image: linear-gradient(120deg, #2E2930, #836364, #2E2930);
+  color: white;
+  cursor: pointer;
+  text-shadow: 0 0 1px black;
+}
+#loginContainer #login #loginDrop form input[type="submit"].inpFilled:hover, #loginContainer #login #loginDrop form input[type="button"].inpFilled:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  background-position: right;
+}
+#loginContainer #login #loginDrop form p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: red;
+  line-height: 1.5em;
+  height: 1.5em;
+  text-align: center;
+}
+#loginContainer #login #loginDrop div {
+  margin-top: 30px;
+}
+#loginContainer #login #loginDrop div a {
+  display: block;
+  background-image: linear-gradient(120deg, #F69E45, #FED176, #F69E45);
+  background-size: 200%;
+  background-position: left;
+  transition: .5s;
+  padding: 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: black;
+  text-align: center;
+}
+#loginContainer #login #loginDrop div a:hover {
+  background-position: right;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+#loginContainer div#login.loginOpen #loginBtn svg {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+}
+#loginContainer div#login.loginOpen #loginBtn svg rect:nth-of-type(1) {
+  transform: translate(0px, 0px) rotate(135deg);
+}
+#loginContainer div#login.loginOpen #loginBtn svg rect:nth-of-type(2) {
+  transform: translate(0px, 0px) rotate(-135deg);
+}
+#loginContainer div#login.loginOpen #loginBtn span {
+  text-shadow: 0 0 1px black, 0 0 3px rgba(0, 0, 0, 0.5);
+}
+#loginContainer div#login.loginOpen #loginDrop {
+  opacity: 1;
+  top: 100%;
+  right: 0;
+  transform: translate(0);
+}
+#loginContainer div#login.loginOpen #loginDrop > * {
+  display: block;
+}
+#loginContainer div#login.loginOpen #loginDrop form .inpBox span::before {
+  content: attr(data-placeholder);
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  color: #bbb;
+  z-index: 0;
+  transition: .5s;
+  height: 20px;
+}
+
+#loginContainer #login #loginDrop form .inpBox input.inpFocus + span::before {
+  top: -10px;
+}
+
+/*------------------------------------------------------------------------------------*/
+/*-------------------------MAIN-------------------------------------------------------*/
+/*------------------------------------------------------------------------------------*/
+#homeMain {
+  display: block;
+  background-image: linear-gradient(140deg, #04101E, #222B3C, #04101E);
+  min-height: 100vh;
+  height: auto;
+  z-index: 10;
+}
+
+#createMain {
+  display: inline-block;
+  margin: auto;
+  min-width: 600px;
+  min-height: 600px;
+  background-color: #eee;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 50px;
+}
+
+#messagesMain {
+  min-height: 110vh;
+  display: block;
+  background-color: #eee;
+  width: 600px;
+  margin: auto;
+}
+
+.section {
+  padding: 800px 0 200px 0;
+  position: relative;
+  display: block;
+  min-height: 500px;
+}
+.section > div {
+  position: absolute;
+  background-color: #eee;
+  height: 500px;
+  width: 100%;
+  transform: skewY(3deg);
+}
+.section > div > div {
+  transform: skewY(-3deg);
+  padding: 100px 0;
+  height: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+.section > div > div h2 {
+  text-align: center;
+  margin: 0;
+  font-size: 30px;
+}
+
+#choiceBox {
+  margin-bottom: 34px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+  justify-content: center;
+  position: relative;
+}
+
+.choice {
+  display: inline-flex;
+  height: 103px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+}
+.choice:hover a {
+  filter: blur(3px);
+}
+.choice a {
+  display: inline-block;
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+  padding: 40px;
+  box-sizing: border-box;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  margin: 0 20px;
+  transition: filter .2s, transform .2s;
+}
+.choice a:hover {
+  filter: blur(0);
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/*------------------------------------------------------------------------------------*/
+/*-------------------------PARALLAX BACKGROUND----------------------------------------*/
+/*------------------------------------------------------------------------------------*/
+.parallax {
+  height: 100vh;
+  perspective: 100px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+.parallax.parallaxHome {
+  margin-left: -10px;
+}
+
+.parallaxLayer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  max-height: 1240px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto;
+}
+
+.parallaxCover {
+  z-index: 5;
+  height: 100%;
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  background-image: linear-gradient(to bottom, black 0%, rgba(0, 0, 0, 0.987) 9.5%, rgba(0, 0, 0, 0.951) 17.9%, rgba(0, 0, 0, 0.896) 25.2%, rgba(0, 0, 0, 0.825) 31.7%, rgba(0, 0, 0, 0.741) 37.5%, rgba(0, 0, 0, 0.648) 42.8%, rgba(0, 0, 0, 0.55) 47.9%, rgba(0, 0, 0, 0.45) 52.9%, rgba(0, 0, 0, 0.352) 57.9%, rgba(0, 0, 0, 0.259) 63.2%, rgba(0, 0, 0, 0.175) 68.9%, rgba(0, 0, 0, 0.104) 75.3%, rgba(0, 0, 0, 0.049) 82.5%, rgba(0, 0, 0, 0.013) 90.6%, rgba(0, 0, 0, 0) 100%);
+}
+
+.parallaxSpacer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  max-height: 1240px;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.parallaxLayer:nth-of-type(1) {
+  background-image: url("orange%20mountains/wallpaper%20orange%20mountains.jpg");
+  transform: translateZ(-500px) scale(6);
+  z-index: -5;
+}
+
+.parallaxLayer:nth-of-type(2) {
+  background-image: url("orange%20mountains/orange%20mountains%202%20Layer%204.png");
+  transform: translateZ(-350px) scale(4.5);
+  z-index: -4;
+}
+
+.parallaxLayer:nth-of-type(3) {
+  background-image: url("orange%20mountains/orange%20mountains%202%20Layer%203.png");
+  transform: translateZ(-150px) scale(2.5);
+  z-index: -3;
+}
+
+.parallaxLayer:nth-of-type(4) {
+  background-image: url("orange%20mountains/orange%20mountains%202%20Layer%202.png");
+  transform: translateZ(-50px) scale(1.5);
+  z-index: -2;
+}
+
+.parallaxLayer:nth-of-type(5) {
+  background-image: url("orange%20mountains/orange%20mountains%202%20Layer%201.png");
+  transform: translateZ(0px) scale(1);
+  z-index: -1;
+}
+
+/*------------------------------------------------------------------------------------*/
+/*-------------------------CREATE-----------------------------------------------------*/
+/*------------------------------------------------------------------------------------*/
+#createContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+#createContainer h2 {
+  display: block;
+  text-align: center;
+  font-size: 30px;
+  color: #bbb;
+  margin: 10px;
+}
+
+.inpContainer {
+  display: block;
+  padding: 30px;
+  margin: 0;
+  position: relative;
+}
+.inpContainer > div {
+  margin: 0;
+  border-bottom: 2px solid #bbb;
+  position: relative;
+  display: inline-block;
+}
+.inpContainer > div.createUsername {
+  display: block;
+}
+.inpContainer > div.createUsername #crtUName {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+.inpContainer > div span::before {
+  content: attr(data-placeholder);
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  color: #bbb;
+  z-index: 0;
+  transition: .5s;
+  height: 20px;
+}
+.inpContainer > div input {
+  background: none;
+  border: none;
+  display: inline-block;
+  padding: 10px;
+  outline: none;
+  font-size: 18px;
+  position: relative;
+  z-index: 1;
+}
+.inpContainer > div input.inpFocus + span::before {
+  top: -10px;
+}
+
+#picTestBox {
+  position: absolute;
+  top: 10px;
+  right: 110px;
+  height: 5em;
+  width: 5em;
+  border: none;
+  background-color: #ddd;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+
+#crtCreate[type="submit"], #crtCreate[type="button"] {
+  width: 100%;
+  margin: 0;
+  background-image: linear-gradient(120deg, #bbb, #ddd, #bbb);
+  background-size: 200%;
+  background-position: left;
+  transition: .5s;
+  padding: 15px;
+  border-radius: 10px;
+  color: #999;
+  font-size: 20px;
+  border: none;
+}
+#crtCreate[type="submit"].inpFilled, #crtCreate[type="button"].inpFilled {
+  background-image: linear-gradient(120deg, #F69E45, #FED176, #F69E45);
+  color: white;
+  cursor: pointer;
+  text-shadow: 0 0 1px black;
+}
+#crtCreate[type="submit"].inpFilled:hover, #crtCreate[type="button"].inpFilled:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  background-position: right;
+}
+
+#createMain form p {
+  margin: 0;
+  font-size: 16px;
+  color: red;
+  line-height: 1.5em;
+  height: 1.5em;
+  text-align: center;
+}
+
+/*------------------------------------------------------------------------------------*/
+/*-------------------------MESSAGES---------------------------------------------------*/
+/*------------------------------------------------------------------------------------*/
+#msgContainer {
+  position: relative;
+  background-image: linear-gradient(120deg, #04101E, #222B3C, #04101E);
+  background-repeat: repeat;
+  background-size: 100%, 500px;
+}
+
+#msgField {
+  padding: 100px 0;
+}
+
+#senderContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  margin-left: -15px;
+}
+
+#msgSender {
+  margin: 10px;
+  margin-left: 25px;
+  width: 550px;
+  min-height: 4em;
+  height: auto;
+  background-image: linear-gradient(120deg, #F69E45, #FED176, #F69E45);
+  display: flex;
+  padding: 15px;
+  font-size: 20px;
+  line-height: 1.2em;
+  border-radius: 1em;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: box-shadow .5s;
+}
+
+#msgSender.inpFilled {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#msgSender.inpFilled #inpSend {
+  background-image: linear-gradient(120deg, #2E2930, #836364, #2E2930);
+  cursor: pointer;
+}
+#msgSender.inpFilled #inpSend:hover {
+  background-position: right;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#inpMsg {
+  flex-grow: 1;
+  resize: none;
+  font-size: inherit;
+  height: auto;
+  line-height: 1.2em;
+  border-radius: .5em;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  background-color: #eee;
+  transition: box-shadow .3s;
+}
+#inpMsg:focus {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#inpSend {
+  width: 100px;
+  margin-left: 20px;
+  font-size: inherit;
+  border-radius: .5em;
+  outline: none;
+  border: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  background-color: #eee;
+  background-image: linear-gradient(120deg, #bbb, #ddd, #bbb);
+  background-size: 200%;
+  color: white;
+  text-shadow: 0 0 1px black;
+  transition: background-position .5s, box-shadow .5s;
+}
+
+.msg * {
+  box-sizing: border-box;
+}
+
+.msg {
+  width: 500px;
+  background-color: #eee;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin: 20px auto;
+  font-size: 20px;
+  line-height: 1.2em;
+  position: relative;
+  border-radius: 1em;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.msgHd {
+  height: 2.4em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.msgPic {
+  height: 2.4em;
+  width: 2.4em;
+  display: inline-block;
+  background-color: #999;
+  border-radius: 50%;
+  background-image: url("defaultProfilePicture.jpg");
+  background-position: center;
+  background-size: cover;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+.msgPic div {
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+
+.msgTitle {
+  display: inline-block;
+  position: relative;
+  height: 100%;
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.msgName {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: bold;
+  max-height: 1.2em;
+  overflow: hidden;
+}
+
+.msgDate {
+  position: absolute;
+  top: 0;
+  right: 0.1em;
+  color: #999;
+  background-color: #eee;
+  padding-left: 0.1em;
+}
+.msgDate::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 3em;
+  height: 100%;
+  left: -3em;
+  background-image: linear-gradient(to left, #eee, transparent);
+}
+
+.msgUser {
+  position: absolute;
+  bottom: 0;
+  left: 0.1em;
+  color: #666;
+}
+
+.msgTime {
+  position: absolute;
+  bottom: 0;
+  right: 0.2em;
+  color: #bbb;
+  background-color: #eee;
+  padding-left: 0.1em;
+  font-size: 18px;
+}
+.msgTime::before {
+  content: "";
+  position: absolute;
+  display: inline-block;
+  width: 3em;
+  height: 100%;
+  left: -3em;
+  background-image: linear-gradient(to left, #eee, transparent);
+}
+
+.msgTxt {
+  margin: 0.4em;
+  margin-bottom: 0;
+}
+
+/*------------------------------------------------------------------------------------*/
+/*-------------------------SCROLLBAR--------------------------------------------------*/
+/*------------------------------------------------------------------------------------*/
+.parallax::-webkit-scrollbar {
+  width: 15px;
+  background-color: #000;
+  z-index: 3;
+}
+
+.parallax::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(to bottom, #ddd, #ccc, #ddd);
+  border-left: 1px black solid;
+  border-right: 1px black solid;
+}
+.parallax::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(to bottom, #ddd, #aaa, #ddd);
+}
+
+.parallax::-webkit-scrollbar-track-piece:hover {
+  background-color: #111;
+}
+
+/*------------------------------------------------------------------------------------*/
+/*-------------------------COLOR TESTING----------------------------------------------*/
+/*------------------------------------------------------------------------------------*/
+.box {
+  width: 1000px;
+  height: 100px;
+  position: relative;
+  left: 50%;
+  top: 150px;
+  transform: translate(-50%);
+}
+
+.box1 {
+  background-image: linear-gradient(to right, #F69E45, #FED176, #F69E45);
+}
+
+.box2 {
+  background-image: linear-gradient(to right, #836364, #2E2930);
+}
+
+.box3 {
+  background-image: linear-gradient(to right, #04101E, #222B3C);
+}
+
+/*# sourceMappingURL=style.css.map */
